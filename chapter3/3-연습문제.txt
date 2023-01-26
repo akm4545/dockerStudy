@@ -1,0 +1,12 @@
+Dockerfile 스크립트 없이 text파일 수정 후 수정된 파일을 포함하는 새로운 이미지 빌드하기
+
+1.docker container run -it diamol/ch03-lab
+(-it 플래그 -> 컨테이너를 대화식으로 실행)
+
+2. 텍스트 파일 수정 후
+
+3. docker container commit nostalgic_leakey ch03lab
+(commit 은 수정 사항을 반영하여 새로운 이미지를 만든다)
+(nostalgic_leakey은 이미지로 만든 컨테이너에 임의로 부여된 이름인듯)
+(run 시 --name 플래그로 새로운 이름을 부여해주면 사용하기 편할듯)
+(ex. ... -it --name 새이름 이미지이름)
