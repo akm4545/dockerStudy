@@ -1,0 +1,23 @@
+docker image push registry.local:5000/gallery/ui
+로컬 레지스트리에 해당 이미지 테그를 가진 이미지들을 푸시한다 
+
+registry.local:5000/gallery/ui  
+이미지 테그이면서 푸시의 경로
+registry.local:5000/gallery/ui 를 포함한 하위의 모든 것들을 지정 (디렉토리 구조를 생각하면 될듯)
+
+curl http://registry.local:5000/v2/gallery/ui/tags/list
+api로 로컬 레지스트리에 접근해서 이미지 목록 출력
+로컬 레지스트리는 v2가 붙는가봄
+
+curl --head http://registry.local:5000/v2/gallery/ui/manifests/latest -H 'Accept: application/vnd.docker.distribution.manifest.v2+json'
+매니페스트 확인
+
+Docker-Content-Digest: sha256:127d0ed6f7a8d148a39b7ea168c083694d030e2bffbda60cb53057e731114fbb 
+항목을 가져온다 
+
+curl -X DELETE http://registry.local:5000/v2/gallery/ui/manifests/sha256:127d0ed6f7a8d148a39b7ea168c083694d030e2bffbda60cb53057e731114fbb
+삭제
+
+//현재 매니페스트를 찾지 못하는 에러가 뜸 
+//해결 불가능함 나중에 다시 시도
+
