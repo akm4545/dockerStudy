@@ -1,0 +1,20 @@
+docker volume create ch06-lab
+볼륨 생성
+
+configSource="$(pwd)/solution"
+현재 디렉토리의 하위 디렉토리인 솔루션 디렉토리를 환경변수로 지정
+
+configTarget='/app/config'
+마운트의 타겟 (이미지의) 디렉토리를 환경변수로 지정
+
+dataTarget='/new-data'
+데이터
+
+docker container run -d -p 8016:80 --mount type=bind,source=$configSource,target=$configTarget,readonly --volume ch06-lab:$dataTarget diamol/ch06-lab
+도커 컨테이너의 대상과 타겟을 지정 읽기 전용으로 만든다 (수정 불가) 동시에 ch06-lab볼륨 내의 /new-data디렉토리를 엮어 실행
+마운트 시킨 폴더에는 DB의 경로가 저장되어 있는 설정파일이 있음
+
+1.로컬 스토리지를 컨테이너에 읽기전용으로 마운트
+2.해당 로컬 스토리지에는 설정 파일이 들어있음
+3.solution 디렉토리를 config 디렉토리에 마운트 시켜서 읽을 수 있게 만듦
+4.새로 설정한 DB 파일 경로와 일치하는 아무것도 없는 볼륨을 엮어 아무런 데이터가 없는 이미지가 실행됨
