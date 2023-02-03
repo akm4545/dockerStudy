@@ -1,0 +1,78 @@
+version: "3.7"
+
+service:
+  todo-web:
+    image: diamol/ch06-todo-list
+    ports:
+      - "9090:80"
+    network:
+      - app-net
+    restart: always
+    volumes:
+      - type: bind
+      source:
+      target:
+network:
+  app-net:
+    external:
+      name: net
+
+
+#해답
+version: "3.7"
+
+#서비스 선언
+services:
+  #DB
+  todo-db:
+    #기반 이미지
+    image: diamol/postgres:11.5
+    #재시작 정책
+    restart: unless-stopped
+    #환경변수 지정
+    environment:
+      - PGDATA=/var/lib/postgresql/data
+    #볼륨
+    volumes:
+      #바인드로 엮음
+      - type: bind
+        #로컬 디렉토리
+        source: /data/postgres
+        #이미지 컨테이너 내부 디렉토리
+        target: /var/lib/postgresql/data
+    #내부 네트워크 설정    
+    networks:
+      - app-net
+  #웹
+  todo-web:
+    #기반 이미지
+    image: diamol/ch06-todo-list
+    restart: unless-stopped
+    #컨테이너 포트와 호스트 포트 연결
+    ports:
+      - "8050:80"
+    environment:
+      - Database:Provider=Postgres
+    #종속 설정  
+    depends_on:
+      - todo-db
+    #기타 설정 파일  
+    secrets:
+      #기록될 비밀값
+      - source: postgres-connection
+        #생성파일
+        target: /app/config/secrets.json
+#비밀값 읽기
+secrets:
+  #비밀값 지정
+  postgres-connection:
+    #읽어올 파일
+    file: postgres-connection.json
+
+#내부 네트워크 설정
+networks:
+  app-net:
+    #이미 nat이라는 이름의 네트워크가 존재하므로 있으면 새로 생성하지 않고 사용
+    external:
+      name: nat
+
