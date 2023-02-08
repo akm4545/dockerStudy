@@ -1,29 +1,27 @@
-version: "3.7"
-
+version: '3.7' ## 버전
 services:
-  todo-list:
-    image: diamol/ch09-todo-list
+  to-do: ##애플리케이션
+    image: diamol/ch09-todo-list ## 기반 이미지 여기엔 프로메테우스가 사용할 엔드포인트가 존재
     ports:
       - "8050:80"
     networks:
       - app-net
-
-  prometheus:
+  prometheus: ##대쉬보드용 프로메테우스
     image: diamol/ch09-lab-prometheus
     ports:
       - "9090:9090"
+    environment:
+      - name=value ##내 IP 지정 안해도 괜찮나? 본인의 컴퓨터 자원을 보여줄게 아니면 필요없을듯
     networks:
       - app-net
-
-  grafana:
-    image: diamol/ch09-lab-grafana
+  grafana: ##프로메테우스 연동 대시보드 그라파나
+    image: diamol/ch09-grafana
     ports:
       - "3000:3000"
-    depends_on:
+    depends_on: ##프로메테우스 컨테이너가 먼저 실행되어야함
       - prometheus
     networks:
       - app-net
-
 networks:
   app-net:
     external:
