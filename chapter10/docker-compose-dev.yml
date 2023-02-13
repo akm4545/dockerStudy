@@ -1,0 +1,18 @@
+version: "3.7"
+
+##dev 환경에서 사용할 오버라이드 파일
+##docker-compose up -d 명령을 실행하면 dev환경이 실행된다고 하는데 실행 안됨
+##docker-compose.yml이 기본실행되는거 아닌가?
+##오버라이드 명령어로 실행해야 할 듯 함
+##docker-compose -f .\docker-compose.yml -f .\docker-compose-dev.yml -p ch10-lab-dev up -d
+services:
+  todo-web:
+    image: diamol/ch06-todo-list:v2
+    ports:
+      - 8089:80
+    environment:
+      - Database:Provider=Sqlite
+
+secrets:
+  todo-db-connection:
+    file: empty.json
