@@ -1,0 +1,9 @@
+## 오버레이 네트워크 생성
+docker network create --driver overlay numbers
+
+##도커 스윔 서비스 생성 --detach 기다리지 않음 --network 속하는 네트워크 
+docker service create --detach --network numbers --name numbers-api diamol/ch08-numbers-api:v3
+
+--publish 포트포워딩 할 포트 번호 오버레이 네트워크에 속하게 된다
+
+docker service create --detach --network numbers --name numbers-web --publish 8020:80  diamol/ch08-numbers-web:v3
