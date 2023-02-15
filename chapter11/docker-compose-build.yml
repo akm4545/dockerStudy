@@ -1,0 +1,15 @@
+version: "3.7"
+
+##오버라이드할 파일
+services:
+  todo-web:
+    ##dockerfile에서 빌드 후 베이스 이미지로 사용 (자신이 작성한 dockerfile 실행?)
+    build:
+      ##디렉터리 경로
+      context: todo-list
+      ##dockerfile 지정
+      dockerfile: Dockerfile
+      ##빌드시에만 사용할 환경변수
+      args:
+        ##BUILD_NUMBER가 존재하면 해당 BUILD_NUMBER 사용 아니면 -0 사용
+        BUILD_NUMBER: ${BUILD_NUMBER:-0}
