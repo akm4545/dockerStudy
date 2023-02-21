@@ -1,0 +1,47 @@
+version: "3.7"
+
+##도커 스웜 스택
+services:
+  accesslog:
+    image: diamol/ch09-access-log
+    ##해당 이미지로 구동할 복사본 갯수 설정
+    deploy:
+      ##3개 구동
+      replicas: 3
+      ##사용 리소스
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 100M
+    networks:
+      - app-net
+
+  iotd:
+    image: diamol/ch09-image-of-the-day
+    ports:
+      - 8088:80
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "1"
+          memory: 200M
+    networks:
+      - app-net
+
+  image-gallery:
+    image: diamol/ch09-image-gallery
+    ports:
+      - 80:80
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 75M
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    name: image-gallery-prod

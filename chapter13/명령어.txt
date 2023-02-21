@@ -1,0 +1,2 @@
+docker stack deploy -c image-gallery.yml image-gallery
+도커 스택 배포 명령어
