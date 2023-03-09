@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  accesslog:
+    image: diamol/ch04-access-log
+    networks:
+      - app-net
+
+  iotd:
+    image: diamol/ch04-image-of-the-day
+    ports:
+      - 8088:80
+    //헬스체크 부분
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/image"]
+	//시도간격
+      interval: 5s
+	//대기시간
+      timeout: 20s
+	//실패시 재시도 횟수
+      retries: 2
+	//컨테이너 시작 후 헬스체크 대기시간
+      start_period: 10s
+    //서비스 배포 및 실행설정
+    deploy:
+	//4개의 레플리카 실행
+      replicas: 4
+	//롤링 업데이트
+      update_config:
+	  //한번에 2개의 레플리카를 업데이트
+        parallelism: 2
+	  //업데이트 레플리카를 먼저 생성
+        order: start-first
+	  //정상작동 감지 시간
+        monitor: 90s
+	  //업데이트 실패시 롤백
+        failure_action: rollback
+	//롤백
+      rollback_config:
+        parallelism: 4
+        order: start-first
+	  //실패시 설정
+        failure_action: continue
+    networks:
+      - app-net
+
+  image-gallery:
+    image: diamol/ch04-image-gallery
+    ports:
+      - 80:80
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    name: image-gallery-prod

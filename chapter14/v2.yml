@@ -1,0 +1,11 @@
+version: "3.7"
+//상위버전 오버라이드 해서 사용
+services:
+  accesslog:
+    image: diamol/ch09-access-log
+
+  iotd:
+    image: diamol/ch09-image-of-the-day
+
+  image-gallery:
+    image: diamol/ch09-image-gallery
