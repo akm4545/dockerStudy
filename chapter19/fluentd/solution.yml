@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  //fluentd 설정 및 로그별 출력 장소 설정
+  fluentd:
+    image: diamol/fluentd
+    environment:
+      FLUENTD_CONF: solution.conf

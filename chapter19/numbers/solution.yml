@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  numbers-api:
+    //로깅 설정
+    logging:
+	//fluentd 드라이버 설정
+      driver: "fluentd"
+      options:
+	  //태그 설정
+        tag: "numbers.api.{{.ImageName}}"
+
+  numbers-web:
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "numbers.web.{{.ImageName}}"
