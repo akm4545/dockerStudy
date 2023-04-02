@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  //리버스 프록시 엔진엑스 
+  nginx:
+    image: diamol/nginx
+    ports:
+      - "80:80"
+    networks:
+      - ch20
+
+networks:
+  ch20:
+    external:
+      name: ch20

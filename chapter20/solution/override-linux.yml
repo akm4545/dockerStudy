@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  //프록시 설정파일 볼륨 사용
+  nginx:
+    volumes:
+      - type: bind
+        source: ./sites-enabled
+        target: /etc/nginx/sites-enabled
